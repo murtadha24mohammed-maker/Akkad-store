@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع وتحميل الملفات</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .upload-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        /* تصميم زر الرفع المخصص */
+        .file-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+        .file-label:hover {
+            background-color: #0056b3;
+        }
+        input[type="file"] {
+            display: none; /* إخفاء زر الرفع الافتراضي البشع */
+        }
+        /* صندوق استعراض الصورة أو الملف المرفوع */
+        .preview-box {
+            margin-top: 15px;
+            border: 2px dashed #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fafafa;
+        }
+        .preview-box img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .file-info {
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+            word-break: break-all;
+        }
+        /* تصميم زر التحميل */
+        .download-btn {
+            display: none; /* يظهر فقط بعد رفع ملف */
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="upload-container">
+    <h2>منصة رفع وتحميل الملفات</h2>
+    
+    <!-- زر اختيار الملف -->
+    <label for="fileInput" class="file-label">اختر صورة أو ملف للرفع 📁</label>
+    <input type="file" id="fileInput" accept="image/*, .pdf, .txt, .doc, .docx">
+    
+    <!-- صندوق المعاينة -->
+    <div class="preview-box" id="previewBox">
+        <p id="placeholderText">لم يتم رفع أي ملف بعد...</p>
+        <img id="imagePreview" alt="معاينة الصورة">
+        <div id="fileInfo" class="file-info"></div>
+    </div>
+    
+    <!-- زر تحميل الملف -->
+    <button id="downloadBtn" class="download-btn">تحميل الملف المرفوع 📥</button>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const placeholderText = document.getElementById('placeholderText');
+    const fileInfo = document.getElementById('fileInfo');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    let uploadedFileUrl = '';
+    let uploadedFileName = '';
+
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        
+        if (file) {
+            uploadedFileName = file.name;
+            
+            // تحويل الملف المرفوع إلى رابط مؤقت داخل المتصفح (Object URL)
+            uploadedFileUrl = URL.createObjectURL(file);
+            
+            placeholderText.style.display = 'none';
+            fileInfo.textContent = `اسم الملف: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+            
+            // إذا كان الملف المرفوع صورة، قم بمعاينتها
+            if (file.type.startsWith('image/')) {
+                imagePreview.src = uploadedFileUrl;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.style.display = 'none';
+                placeholderText.textContent = "📄 تم رفع ملف نصي/مستند بنجاح";
+                placeholderText.style.display = 'block';
+            }
+            
+            // إظهار زر التحميل وربطه بالملف الجديد
+            downloadBtn.style.display = 'block';
+        }
+    });
+
+    // كود التحميل عند الضغط على الزر
+    downloadBtn.addEventListener('click', function() {
+        if (uploadedFileUrl) {
+            const a = document.createElement('a');
+            a.href = uploadedFileUrl;
+            a.download = uploadedFileName; // تحديد اسم الملف عند التنزيل
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    });
+</script>
+
+</body>
+</html>
