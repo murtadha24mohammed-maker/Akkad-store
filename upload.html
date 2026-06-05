@@ -169,7 +169,8 @@
         .then(data => {
             if (data.secure_url) {
                 uploadStatus.innerHTML = "<span style='color: green; font-weight: bold;'>✅ تم الرفع والتخزين بنجاح دائم!</span>";
-                
+
+            
                 // حفظ الرابط الدائم الجديد في ذاكرة الموقع
                 const savedFiles = JSON.parse(localStorage.getItem('cloud_files')) || [];
                 savedFiles.unshift({
