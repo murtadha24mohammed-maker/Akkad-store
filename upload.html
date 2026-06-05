@@ -3,164 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفع وتحميل الملفات</title>
+    <title>مخزن الملفات الدائم</title>
     <style>
-        body
-{
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+            background-color: #f0f4f8;
             margin: 0;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            direction: rtl;
         }
-        .upload-container {
-            background-color: #ffffff;
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: white;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             text-align: center;
-            max-width: 450px;
-            width: 100%;
         }
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        /* تصميم زر الرفع المخصص */
+        h2 { color: #1055c0; margin-bottom: 25px; }
         .file-label {
             display: inline-block;
-            padding: 12px 24px;
-            background-color: #007bff;
-            color: #fff;
+            padding: 14px 28px;
+            background-color: #1055c0;
+            color: white;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.3s;
-            margin-bottom: 20px;
+            transition: 0.3s;
         }
-        .file-label:hover {
-            background-color: #0056b3;
+        .file-label:hover { background-color: #0c3d8a; }
+        input[type="file"] { display: none; }
+        
+        /* قائمة الملفات المحفوظة دائمًا */
+        .gallery {
+            margin-top: 30px;
+            text-align: right;
         }
-        input[type="file"] {
-            display: none; /* إخفاء زر الرفع الافتراضي البشع */
+        .gallery-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #1055c0;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
         }
-        /* صندوق استعراض الصورة أو الملف المرفوع */
-        .preview-box {
-            margin-top: 15px;
-            border: 2px dashed #ccc;
+        .file-card {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
             padding: 15px;
-            border-radius: 8px;
-            min-height: 150px;
+            border-radius: 10px;
+            margin-bottom: 15px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            background-color: #fafafa;
+            justify-content: space-between;
         }
-        .preview-box img {
-            max-width: 100%;
-            max-height: 200px;
+        .file-preview {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
             border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: none;
+            border: 1px solid #ddd;
         }
-        .file-info {
+        .file-details {
+            flex-grow: 1;
+            margin-right: 15px;
+            text-align: right;
+        }
+        .file-name {
+            font-weight: bold;
             font-size: 14px;
-            color: #555;
-            margin-top: 10px;
+            color: #222;
             word-break: break-all;
         }
-        /* تصميم زر التحميل */
         .download-btn {
-            display: none; /* يظهر فقط بعد رفع ملف */
-            margin-top: 20px;
-            padding: 12px 24px;
             background-color: #28a745;
             color: white;
+            padding: 8px 16px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: 6px;
             cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
         }
-        .download-btn:hover {
-            background-color: #218838;
-        }
+        .download-btn:hover { background-color: #1e7e34; }
+        .status { margin-top: 10px; color: #666; font-size: 14px; }
     </style>
 </head>
 <body>
-        <a href="page 9.html" style="padding: 6px 12px; background-color: #00bfff; color: white; text-decoration: none; border-radius: 10px;"><b> من نحن  </b></a>&nbsp;
-    <br> </br>
-<div class="upload-container">
-    <h2>منصة رفع وتحميل الملفات</h2>
+
+<div class="container">
+    <h2>☁️ مخزن الصور والملفات السحابي الدائم</h2>
+    <p style="color: #666; font-size: 14px;">ارفع أي صورة هنا ليتم تخزينها على الإنترنت فوراً والحصول على رابط تحميل دائم من أي جهاز.</p>
     
-    <!-- زر اختيار الملف -->
-    <label for="fileInput" class="file-label">اختر صورة أو ملف للرفع 📁</label>
-    <input type="file" id="fileInput" accept="image/*, .pdf, .txt, .doc, .docx">
-    
-    <!-- صندوق المعاينة -->
-    <div class="preview-box" id="previewBox">
-        <p id="placeholderText">لم يتم رفع أي ملف بعد...</p>
-        <img id="imagePreview" alt="معاينة الصورة">
-        <div id="fileInfo" class="file-info"></div>
+    <label for="cloudInput" class="file-label">اضغط هنا لرفع ملف أو صورة 📤</label>
+    <input type="file" id="cloudInput" accept="image/*">
+    <div class="status" id="uploadStatus"></div>
+
+    <div class="gallery">
+        <div class="gallery-title">الملفات المخزنة سحابياً على الموقع:</div>
+        <div id="filesList">
+            </div>
     </div>
-    
-    <!-- زر تحميل الملف -->
-    <button id="downloadBtn" class="download-btn">تحميل الملف المرفوع 📥</button>
 </div>
 
 <script>
-    const fileInput = document.getElementById('fileInput');
-    const imagePreview = document.getElementById('imagePreview');
-    const placeholderText = document.getElementById('placeholderText');
-    const fileInfo = document.getElementById('fileInfo');
-    const downloadBtn = document.getElementById('downloadBtn');
+    // الإعدادات المجانية الخاصة بالرفع السحابي الدائم (Cloudinary Setup)
+    // ملاحظة: هذه إعدادات عامة تجريبية مجانية، يفضل لاحقاً إنشاء حسابك الخاص لوضع اسمك الخاص.
+    const CLOUD_NAME = "demo"; 
+    const UPLOAD_PRESET = "docs_upload_example_preset"; 
 
-    let uploadedFileUrl = '';
-    let uploadedFileName = '';
+    const cloudInput = document.getElementById('cloudInput');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const filesList = document.getElementById('filesList');
 
-    fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
+    // دالة لتحديث القائمة وعرض الملفات المحفوظة من الذاكرة الدائمة
+    function loadSavedFiles() {
+        filesList.innerHTML = '';
+        // استرجاع الروابط المحفوظة من ذاكرة المتصفح المحلية
+        const savedFiles = JSON.parse(localStorage.getItem('cloud_files')) || [];
         
-        if (file) {
-            uploadedFileName = file.name;
-            
-            // تحويل الملف المرفوع إلى رابط مؤقت داخل المتصفح (Object URL)
-            uploadedFileUrl = URL.createObjectURL(file);
-            
-            placeholderText.style.display = 'none';
-            fileInfo.textContent = `اسم الملف: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
-            
-            // إذا كان الملف المرفوع صورة، قم بمعاينتها
-            if (file.type.startsWith('image/')) {
-                imagePreview.src = uploadedFileUrl;
-                imagePreview.style.display = 'block';
-            } else {
-                imagePreview.style.display = 'none';
-                placeholderText.textContent = "📄 تم رفع ملف نصي/مستند بنجاح";
-                placeholderText.style.display = 'block';
-            }
-            
-            // إظهار زر التحميل وربطه بالملف الجديد
-            downloadBtn.style.display = 'block';
+        if (savedFiles.length === 0) {
+            filesList.innerHTML = '<p style="color: #999; text-align: center;">لا توجد ملفات مرفوعة حالياً.</p>';
+            return;
         }
-    });
 
-    // كود التحميل عند الضغط على الزر
-    downloadBtn.addEventListener('click', function() {
-        if (uploadedFileUrl) {
-            const a = document.createElement('a');
-            a.href = uploadedFileUrl;
-            a.download = uploadedFileName; // تحديد اسم الملف عند التنزيل
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
+        savedFiles.forEach(file => {
+            const card = document.createElement('div');
+            card.className = 'file-card';
+            card.innerHTML = `
+                <img class="file-preview" src="${file.url}" alt="Preview">
+                <div class="file-details">
+                    <div class="file-name">${file.name}</div>
+                    <a href="${file.url}" target="_blank" style="color: #1055c0; font-size: 12px; text-decoration: none;">رابط الملف الدائم 🌐</a>
+                </div>
+                <a href="${file.url}" download="${file.name}" target="_blank" class="download-btn">تنزيل 📥</a>
+            `;
+            filesList.appendChild(card);
+        });
+    }
+
+    // استدعاء الملفات المرفوعة تلقائياً بمجرد فتح الصفحة في المتصفح
+    loadSavedFiles();
+
+    // الاستماع لحدث اختيار ملف وتوجيهه فوراً إلى السيرفر السحابي
+    cloudInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        uploadStatus.innerHTML = "⏳ جاري رفع الملف وتخزينه سحابياً، يرجى الانتظار...";
+
+        // تجهيز الملف لإرساله عبر بروتوكول HTTP كمستند مرفوع لقاعدة البيانات
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', UPLOAD_PRESET);
+
+        // إرسال الملف برمجياً إلى السيرفر السحابي لحفظه للأبد
+        fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.secure_url) {
+                uploadStatus.innerHTML = "<span style='color: green; font-weight: bold;'>✅ تم الرفع والتخزين بنجاح دائم!</span>";
+                
+                // حفظ الرابط الدائم الجديد في ذاكرة الموقع
+                const savedFiles = JSON.parse(localStorage.getItem('cloud_files')) || [];
+                savedFiles.unshift({
+                    name: file.name,
+                    url: data.secure_url // الرابط العالمي المباشر للصورة التي لن تحذف أبداً
+                });
+                localStorage.setItem('cloud_files', JSON.stringify(savedFiles));
+                
+                // إعادة تحديث الواجهة لعرض الصورة المرفوعة فوراً
+                loadSavedFiles();
+            } else {
+                uploadStatus.innerHTML = "<span style='color: red;'>❌ فشل الرفع السحابي، تأكد من حجم الملف.</span>";
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            uploadStatus.innerHTML = "<span style='color: red;'>❌ حدث خطأ أثناء الاتصال بالسيرفر السحابي.</span>";
+        });
     });
 </script>
 
